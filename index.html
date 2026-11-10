@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Generador de sensibilidad - Free Fire</title>
+<style>
+body{background:#111;color:#fff;font-family:Arial;padding:15px;margin:0}
+h1{color:#ff2d2d;text-align:center}
+.box{background:#1c1c1c;border-radius:15px;padding:15px;margin:12px 0}
+label{display:block;margin-top:10px;color:#ddd}
+select,input{width:100%;padding:12px;margin:6px 0 10px;background:#2a2a2a;border:1px solid #444;border-radius:10px;color:#fff;font-size:16px;box-sizing:border-box}
+button{width:100%;padding:15px;background:#ff2d2d;border:none;border-radius:12px;color:#fff;font-size:18px;font-weight:bold;margin-top:10px}
+.fila{display:flex;justify-content:space-between;padding:9px 0;border-bottom:1px solid #333}
+.fila b{color:#ffcc00}
+#resultado{background:#222;border:2px solid #ff2d2d}
+</style>
+</head>
+<body>
+<h1>🔥 MI SENSIBILIDAD 🔥</h1>
+
+<div class="box" id="resultado">
+<div class="fila"><span>Celular</span><b id="r-celu">-</b></div>
+<div class="fila"><span>General</span><b id="r-g">182</b></div>
+<div class="fila"><span>Punto Rojo</span><b id="r-r">182</b></div>
+<div class="fila"><span>Mira 2X</span><b id="r-2">175</b></div>
+<div class="fila"><span>Mira 4X</span><b id="r-4">170</b></div>
+<div class="fila"><span>Franco</span><b id="r-f">60</b></div>
+<div class="fila"><span>Cámara</span><b id="r-c">180</b></div>
+<div class="fila"><span>Botón Disparo</span><b id="r-b">50%</b></div>
+</div>
+
+<div class="box">
+<label>Tipo de celular:</label>
+<select id="tipo">
+<option value="Android">Android</option>
+<option value="iPhone">iPhone</option>
+</select>
+<label>Nombre o modelo:</label>
+<input type="text" id="modelo" value="Xiaomi Redmi A5">
+<label>Tu estilo:</label>
+<select id="estilo">
+<option value="rusher">Rusher</option>
+<option value="equilibrado">Equilibrado</option>
+<option value="preciso">Preciso</option>
+</select>
+<label>Tu DPI:</label>
+<input type="number" id="dpi" value="399">
+<label>Tamaño del botón de disparo: <b id="valorBoton">50%</b></label>
+<input type="range" id="boton" min="30" max="70" value="50">
+<button onclick="generar()">GENERAR MI SENSI</button>
+</div>
+
+<script>
+document.getElementById('boton').addEventListener('input', function(){
+document.getElementById('valorBoton').innerText = this.value + '%';
+});
+function generar(){
+var tipo = document.getElementById('tipo').value;
+var modelo = document.getElementById('modelo').value;
+var estilo = document.getElementById('estilo').value;
+var dpi = parseInt(document.getElementById('dpi').value);
+var boton = document.getElementById('boton').value;
+if(!dpi) dpi = 600;
+var base = 182;
+if(estilo == 'preciso') base = 175;
+if(estilo == 'equilibrado') base = 180;
+if(dpi >= 700) base = base - 5;
+if(dpi <= 500) base = base + 5;
+if(tipo == 'iPhone') base = base - 3;
+document.getElementById('r-celu').innerText = (tipo + ' ' + modelo).trim();
+document.getElementById('r-g').innerText = base;
+document.getElementById('r-r').innerText = base;
+document.getElementById('r-2').innerText = base - 7;
+document.getElementById('r-4').innerText = base - 12;
+document.getElementById('r-f').innerText = 60;
+document.getElementById('r-c').innerText = 180;
+document.getElementById('r-b').innerText = boton + '%';
+localStorage.setItem('tipo', tipo);
+localStorage.setItem('modelo', modelo);
+localStorage.setItem('estilo', estilo);
+localStorage.setItem('dpi', dpi);
+localStorage.setItem('boton', boton);
+alert('Listo! Tu sensi General es ' + base + ' y ya quedó guardada');
+window.scrollTo(0,0);
+}
+window.onload = function(){
+if(localStorage.getItem('modelo')){
+document.getElementById('tipo').value = localStorage.getItem('tipo');
+document.getElementById('modelo').value = localStorage.getItem('modelo');
+document.getElementById('estilo').value = localStorage.getItem('estilo');
+document.getElementById('dpi').value = localStorage.getItem('dpi');
+document.getElementById('boton').value = localStorage.getItem('boton');
+document.getElementById('valorBoton').innerText = localStorage.getItem('boton') + '%';
+}
+}
+</script>
+</body>
+</html>
